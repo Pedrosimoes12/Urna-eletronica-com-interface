@@ -1,6 +1,6 @@
 import pickle
 import traceback
-from gerenciar_urna import *
+from eleicao import *
 from common import *
 
 FILE_ELEITORES = 'eleitores.pkl'
@@ -13,10 +13,11 @@ def menu():
     print("4-Listar Candidatos")
     print("5-Iniciar Urna")
     print("6-Testar Urna")
-    print("7-Sair")
-    op = int(input("Digite a opcao [1 a 7]? "))
-    while op not in range(1, 8):
-        op = int(input("Digite a opcao [1 a 7]? "))
+    print("7-Fechar Urna")
+    print("8-Sair")
+    op = int(input("Digite a opcao [1 a 8]? "))
+    while op not in range(1, 10):
+        op = int(input("Digite a opcao [1 a 8]? "))
     return op
 
 def inserir_eleitor(eleitores):
@@ -104,7 +105,7 @@ if __name__ == "__main__":
         print("Arquivo nao encontrado, nenhum candidato carregado!")
 
     opcao = 1
-    while opcao in range(1,8):
+    while opcao in range(1, 10):
         try:
             opcao = menu()
 
@@ -117,11 +118,14 @@ if __name__ == "__main__":
             elif opcao == 4:
                 listar_candidatos(candidatos)
             elif opcao == 5:
-                urna = gerenciar_urna.iniciar_urna(eleitores.values(),
-                                                   candidatos.values())
+                urna = iniciar_urna(eleitores.values(), candidatos.values())
             elif opcao == 6:
-                gerenciar_urna.votar(urna)
+                urna.votar()
             elif opcao == 7:
+                urna.encerrar()
+            elif opcao == 8:
+                print(carregar_votos("10_10.pkl_final.pkl"))
+            elif opcao == 9:
                 print("Saindo!")
                 break
         except Exception as e:
