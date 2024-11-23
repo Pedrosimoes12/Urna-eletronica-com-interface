@@ -90,3 +90,5 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = UrnaInterface(root)
     root.mainloop()
+
+    # recommit outro deu errado

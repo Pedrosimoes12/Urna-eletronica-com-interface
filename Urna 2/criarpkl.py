@@ -10,3 +10,5 @@ with open('candidatos.pkl', 'wb') as f:
 
 with open('eleitores.pkl', 'wb') as f:
     pickle.dump(eleitores, f)
+
+    # recommit outro deu errado

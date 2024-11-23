@@ -39,3 +39,5 @@ class UrnaEletronica:
             if str(c['numero']) == numero:
                 return f"Candidato: {c['nome']}"
         return "Número inválido" if numero else ""
+
+#recommit outro deu errado

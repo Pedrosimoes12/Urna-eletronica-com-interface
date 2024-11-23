@@ -20,3 +20,5 @@ if votos:
         print(f"Voto {i}: {voto}")
 else:
     print("Nenhum voto registrado.")
+
+    # recommit outro deu errado
