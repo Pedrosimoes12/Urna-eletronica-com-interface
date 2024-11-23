@@ -1,5 +1,4 @@
 import pickle
-import os
 
 class UrnaEletronica:
     def __init__(self):
@@ -8,10 +7,11 @@ class UrnaEletronica:
         self.eleitores_votaram = set()
 
     def carregar_arquivo(self, nome_arquivo):
-        if os.path.exists(nome_arquivo):
+        if nome_arquivo:
             with open(nome_arquivo, 'rb') as arquivo:
                 return pickle.load(arquivo)
-        return []
+        else:
+            return "Erro, arquivo não encontrado"
 
     def buscar_eleitor(self, titulo):
         return next((e for e in self.eleitores if e['titulo'] == titulo), None)
