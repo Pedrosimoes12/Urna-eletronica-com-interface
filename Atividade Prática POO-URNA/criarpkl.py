@@ -15,3 +15,4 @@ with open('eleitores.pkl', 'wb') as f:
 
 with open('votos.pkl', 'wb') as f:
     pickle.dump(votos, f)
+
