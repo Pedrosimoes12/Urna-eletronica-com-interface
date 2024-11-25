@@ -45,8 +45,11 @@ class UrnaInterface:
 
         def confirma():
             numero = entrada_numero.get()
-            voto = self.urna.processar_voto(numero)
-            registrar_voto(voto)
+            if not numero:  # Verifica se não digitou nenhum numero antes de confirmar
+                registrar_voto("Nulo")
+            else:
+                voto = self.urna.processar_voto(numero)
+                registrar_voto(voto)
 
         def registrar_voto(voto):
             self.urna.salvar_voto(eleitor['titulo'], voto)
@@ -58,37 +61,40 @@ class UrnaInterface:
             nome = self.urna.get_nome_candidato(numero)
             label_candidato['text'] = nome
 
-        # Escrita da janela de votação
-        entrada_numero = tk.Entry(janela_voto, font=("Arial", 24), justify='center')
-        entrada_numero.grid(row=0, column=0, columnspan=3, pady=10)
+        # Configuração da entrada e informações ao lado do teclado
+        entrada_frame = tk.Frame(janela_voto)
+        entrada_frame.grid(row=0, column=0, padx=20, pady=10)
 
-        label_candidato = tk.Label(janela_voto, text="", font=("Arial", 18), fg="blue")
-        label_candidato.grid(row=1, column=0, columnspan=3, pady=5)
+        entrada_numero = tk.Entry(entrada_frame, font=("Arial", 24), justify='center', width=10)
+        entrada_numero.pack(pady=10)
 
-        # Teclado para votar
+        label_candidato = tk.Label(entrada_frame, text="", font=("Arial", 18), fg="blue", wraplength=200)
+        label_candidato.pack(pady=10)
+
+        # Configuração do teclado
+        teclado_frame = tk.Frame(janela_voto)
+        teclado_frame.grid(row=0, column=1, padx=20, pady=10)
+
         botoes = [
-            ('1', 2, 0), ('2', 2, 1), ('3', 2, 2),
-            ('4', 3, 0), ('5', 3, 1), ('6', 3, 2),
-            ('7', 4, 0), ('8', 4, 1), ('9', 4, 2),
-            ('0', 5, 1)
+            ('1', 0, 0), ('2', 0, 1), ('3', 0, 2),
+            ('4', 1, 0), ('5', 1, 1), ('6', 1, 2),
+            ('7', 2, 0), ('8', 2, 1), ('9', 2, 2),
+            ('0', 3, 1)
         ]
         for (text, row, col) in botoes:
-            tk.Button(janela_voto, text=text, font=("Arial", 18), width=5, height=2,
-                      command=lambda t=text: inserir_numero(t)).grid(row=row, column=col)
+            tk.Button(teclado_frame, text=text, font=("Arial", 18), width=5, height=2,
+                      command=lambda t=text: inserir_numero(t)).grid(row=row, column=col, padx=5, pady=5)
 
-        # Botões de decisão
-        tk.Button(janela_voto, text="BRANCO", bg="white", width=10, height=2, command=branco).grid(row=6, column=0,
-                                                                                                   pady=5)
-        tk.Button(janela_voto, text="CORRIGE", bg="orange", width=10, height=2, command=corrige).grid(row=6, column=1,
-                                                                                                      pady=5)
-        tk.Button(janela_voto, text="CONFIRMA", bg="green", width=10, height=2, command=confirma).grid(row=6, column=2,
-                                                                                                       pady=5)
-
-
+        # Botões de decisão abaixo do teclado
+        tk.Button(teclado_frame, text="BRANCO", bg="white", width=10, height=2, command=branco).grid(row=4, column=0,
+                                                                                                     pady=10)
+        tk.Button(teclado_frame, text="CORRIGE", bg="orange", width=10, height=2, command=corrige).grid(row=4, column=1,
+                                                                                                        pady=10)
+        tk.Button(teclado_frame, text="CONFIRMA", bg="green", width=10, height=2, command=confirma).grid(row=4,
+                                                                                                         column=2,
+                                                                                                         pady=10)
 # Iniciar interface da urna
 if __name__ == "__main__":
     root = tk.Tk()
     app = UrnaInterface(root)
     root.mainloop()
-
-    # recommit outro deu errado
