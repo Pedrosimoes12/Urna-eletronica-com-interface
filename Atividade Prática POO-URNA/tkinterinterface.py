@@ -1,6 +1,8 @@
+
 import tkinter as tk
 from tkinter import messagebox
 from urna import UrnaEletronica
+from criarpkl import criar_votos
 
 
 class UrnaInterface:
@@ -9,7 +11,7 @@ class UrnaInterface:
         self.root = root
         self.root.title("Urna Eletrônica")
 
-        # Entrada do titulo de eleitor
+        # Entrada do título de eleitor
         tk.Label(root, text="Digite o título do eleitor:").pack(pady=10)
         self.entrada_titulo = tk.Entry(root)
         self.entrada_titulo.pack(pady=5)
@@ -22,12 +24,32 @@ class UrnaInterface:
             if self.urna.ja_votou(titulo):
                 messagebox.showwarning("Aviso", "Este eleitor já votou.")
             else:
-                self.iniciar_votacao(eleitor)
+                self.mostrar_dados_eleitor(eleitor)
         else:
             messagebox.showerror("Erro", "Eleitor não encontrado.")
 
+    def mostrar_dados_eleitor(self, eleitor):
+        # Criação de uma nova janela para exibir os dados do eleitor
+        janela_dados = tk.Toplevel(self.root)
+        janela_dados.title("Dados do Eleitor")
+
+        # Exibir os dados do eleitor
+        tk.Label(janela_dados, text="Dados do Eleitor", font=("Arial", 14, "bold")).pack(pady=10)
+        tk.Label(janela_dados, text=f"Nome: {eleitor['nome']}").pack(pady=5)
+        tk.Label(janela_dados, text=f"Título: {eleitor['titulo']}").pack(pady=5)
+
+        # Botão para iniciar a votação
+        tk.Button(janela_dados, text="Iniciar Votação", bg="green", fg="white", command=lambda: self.iniciar_votacao(eleitor)).pack(pady=20)
+        # Botão para cancelar
+        tk.Button(janela_dados, text="Cancelar", bg="red", fg="white", command=janela_dados.destroy).pack(pady=5)
+
     def iniciar_votacao(self, eleitor):
-        # Criação de nova janela para votação
+        # Fecha a janela de dados do eleitor
+        for widget in self.root.winfo_children():
+            if isinstance(widget, tk.Toplevel) and widget.title() == "Dados do Eleitor":
+                widget.destroy()
+
+        # Criação de nova janela para votação (implementação já explicada)
         janela_voto = tk.Toplevel(self.root)
         janela_voto.title("Teclado Virtual")
 
@@ -87,14 +109,16 @@ class UrnaInterface:
 
         # Botões de decisão abaixo do teclado
         tk.Button(teclado_frame, text="BRANCO", bg="white", width=10, height=2, command=branco).grid(row=4, column=0,
-                                                                                                     pady=10)
+                                                                                                    pady=10)
         tk.Button(teclado_frame, text="CORRIGE", bg="orange", width=10, height=2, command=corrige).grid(row=4, column=1,
+                                                                                                       pady=10)
+        tk.Button(teclado_frame, text="CONFIRMA", bg="green", width=10, height=2, command=confirma).grid(row=4, column=2,
                                                                                                         pady=10)
-        tk.Button(teclado_frame, text="CONFIRMA", bg="green", width=10, height=2, command=confirma).grid(row=4,
-                                                                                                         column=2,
-                                                                                                         pady=10)
+
+
 # Iniciar interface da urna
 if __name__ == "__main__":
+    criar_votos()
     root = tk.Tk()
     app = UrnaInterface(root)
     root.mainloop()

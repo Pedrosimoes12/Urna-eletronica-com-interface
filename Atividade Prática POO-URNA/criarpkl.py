@@ -13,6 +13,6 @@ with open('candidatos.pkl', 'wb') as f:
 with open('eleitores.pkl', 'wb') as f:
     pickle.dump(eleitores, f)
 
-with open('votos.pkl', 'wb') as f:
-    pickle.dump(votos, f)
-
+def criar_votos():
+    with open('votos.pkl', 'wb') as f:
+        pickle.dump(votos, f)

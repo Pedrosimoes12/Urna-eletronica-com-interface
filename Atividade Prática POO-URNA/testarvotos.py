@@ -10,15 +10,11 @@ def carregar_votos():
         print("O arquivo votos.pkl não foi encontrado.")
         return []
     except EOFError:
-        print("O arquivo votos.pkl está vazio.")
         return []
 
 # Carregar e exibir os votos
 votos = carregar_votos()
 if votos:
-    for i, voto in enumerate(votos, start=1):
-        print(f"Voto {i}: {voto}")
-else:
-    print("Nenhum voto registrado.")
-
-    # recommit outro deu errado
+    for i, voto in enumerate(votos, start=0):
+        if i > 0:
+            print(f"Voto {i}: {voto}")
